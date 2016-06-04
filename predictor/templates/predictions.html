@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block section-title %}
+Games / <a href="{% url 'predictor.views.scores' %}" class="navbar-link active" style="color:#BBB">Scores</a>
+
+<span class="pull-right">
+	{% if updates_made %}
+<span id="message" style="padding:6px;" class="alert alert-success text-center">Updates were saved</span>
+<script type="text/javascript">
+setTimeout(function(){$('#message').fadeOut('slow');},3000);
+</script>
+{% endif %}
+{% if user %}<span style="font-size:.5em">{{ user.first_name|default:user.username }}</span>
+<button class="btn btn-primary" type="button" onclick="$(this).prop('disabled', true);$('#form').submit();">Save Updates</button>{% endif %}
+</span>
+{% endblock %}
+{% block maincontainer %}
+<style>
+.correctOutcome  td{ background-color: #DFEED8; border-color: #D6E9C6; }
+.correctGoals { background-color: #ACF0B7 !important;  border-color: #D6E9C6 !important; }
+.allpredictions{ display:none; font-size:.8em;}
+.allpredictions td{border-top:none !important; padding:2px !important;}
+</style>
+
+
+
+<form method="post" id="form" autocomplete="off" >
+{% csrf_token %}
+<table class="table table-condensed Xtable-hover">
+{% for game in games %}
+{% if game.id == 37 %}
+<tr><td colspan="20">
+	ROUND OF 16
+</td>
+</tr>{% endif %}
+{% if game.id == 46 %}
+<tr><td colspan="20">
+	QUARTER FINALS
+</td>
+</tr>{% endif %}
+{% if game.id == 50 %}
+<tr><td colspan="20">
+	SEMI FINALS
+</td>
+</tr>{% endif %}
+{% if game.id == 63 %}
+<tr><td colspan="20">
+	PLAY-OFF FOR THIRD PLACE
+</td>
+</tr>{% endif %}
+{% if game.id == 52 %}
+<tr><td colspan="20">
+	FINAL
+</td>
+</tr>{% endif %}
+
+<tr id="{{game.id}}" class="{% if game.outcome %} correctOutcome {% endif %}">
+<td class="ptoggle hidden-xs" style="font-size:.8em;color:#444">{{ game.match_date|date:"D jS F, P" }}</td>
+<td class="ptoggle text-right"><label for="game{{ game.id }}_a">{{ game.team_a }} <span class="team-flag flag-{{ game.team_a|slice:":5" }}"></span></label></td>
+
+{% if game.open %}
+<td class="text-center ignoreToggle"><select name="game{{ game.id }}_a" id="game{{ game.id }}_a">{% for i in "xxxxxxxxxx" %}<option value="{{ forloop.counter0 }}" {% if game.prediction.predict_a == forloop.counter0 %}selected="selected"{% endif %}>{{ forloop.counter0 }}</option>{% endfor %}</select></td>
+<td>v</td>
+<td class="text-center"><select name="game{{ game.id }}_b" >{% for i in "xxxxxxxxxx" %}<option value="{{ forloop.counter0 }}" {% if game.prediction.predict_b == forloop.counter0 %}selected="selected"{% endif %}>{{ forloop.counter0 }}</option>{% endfor %}</select></td>
+{% else %}
+{% if game.prediction.predict_a > -1 %}
+
+<td class="ptoggle text-center{% if game.prediction.predict_a == game.goals_a %} correctGoals{% endif %}">({{ game.prediction.predict_a }}) {{ outcome }}<strong>{{ game.goals_a|default_if_none:"-" }}</strong></td>
+<td> v </td>
+<td class="ptoggle text-center{% if game.prediction.predict_b == game.goals_b %} correctGoals{% endif %}"><strong>{{ game.goals_b|default_if_none:"-" }}</strong> ({{ game.prediction.predict_b }})</td>
+
+{% else %}
+<td class="ptoggle text-center}"><strong>{{ game.goals_a|default_if_none:"-" }}</strong></td>
+<td> v </td>
+<td class="ptoggle text-center"><strong>{{ game.goals_b|default_if_none:"-" }}</strong></td>
+{% endif %}
+
+{% endif %}
+
+<td > <label for="game{{ game.id }}_b"><span class="team-flag flag-{{ game.team_b|slice:":5" }}"></span> {{ game.team_b }}</label></td>
+<td title="points awarded">{% if game.prediction.points_awarded|yesno:"2,1," %}<strong>{{ game.prediction.points_awarded|floatformat:"0" }}</strong>{% endif %}</td>
+</tr>
+
+{% if game.started %}
+{% for p in game.allpredictions %}
+<tr class="allpredictions{{game.id}} allpredictions{% if p.outcome %} correctOutcome {% endif %}" style="display:none">
+<td class="hidden-xs"></td>
+<td clas="text-right">{{ p.user.first_name }}</td>
+<td class="text-center{% if p.predict_a == game.goals_a %} correctGoals{% endif %}">{{ p.predict_a }}</td>
+<td></td>
+<td class="text-center{% if p.predict_b == game.goals_b %} correctGoals{% endif %}">{{ p.predict_b }}</td>
+<td></td>
+<td>{{ p.points_awarded|floatformat:"0" }}</td>
+</tr>
+{% endfor %}
+{% endif %}
+{% endfor %}
+</table>
+</form>
+
+<script>
+$(document).ready(
+	function()
+	{
+		$('.ptoggle').on('click',function(evt)
+				{
+					$('.allpredictions'+$( this ).closest('tr').attr('id')).toggle();
+				})
+			.css('cursor','pointer');
+               if($('select').length>0)
+	       	window.scrollTo(0,$('select').first().position().top -70);
+	});
+</script>
+
+{% endblock %}

@@ -1,0 +1,174 @@
+.team-flag {
+    background-size: 160px 352px;
+    height: 32px;
+    vertical-align: middle;
+    width: 32px;
+}
+[class*=" flag-"], [class^="flag-"] {
+    background-image: url("/static/img/flags_sprite_empty_64x64.png");
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin: 0;
+}
+.flag-Alban {
+    background-position: 100% 100%;
+}
+.flag-AND {
+    background-position: 25% 0;
+}
+.flag-ARM {
+    background-position: 50% 0;
+}
+.flag-Austr {
+    background-position: 75% 0;
+}
+.flag-AZE {
+    background-position: 100% 0;
+}
+.flag-Belgi {
+    background-position: 0 10%;
+}
+.flag-BIH {
+    background-position: 25% 10%;
+}
+.flag-BLR {
+    background-position: 50% 10%;
+}
+.flag-BUL {
+    background-position: 75% 10%;
+}
+.flag-Croat {
+    background-position: 100% 10%;
+}
+.flag-CYP {
+    background-position: 0 20%;
+}
+.flag-Czech {
+    background-position: 25% 20%;
+}
+.flag-DAN, .flag-DEN {
+    background-position: 50% 20%;
+}
+.flag-Engla {
+    background-position: 75% 20%;
+}
+.flag-EST {
+    background-position: 100% 20%;
+}
+.flag-Finla {
+    background-position: 0 30%;
+}
+.flag-Franc {
+    background-position: 25% 30%;
+}
+.flag-FRO {
+    background-position: 50% 30%;
+}
+.flag-GEO {
+    background-position: 75% 30%;
+}
+.flag-Germa {
+    background-position: 100% 30%;
+}
+.flag-GIB {
+    background-position: 0 40%;
+}
+.flag-Greec {
+    background-position: 25% 40%;
+}
+.flag-Hunga {
+    background-position: 50% 40%;
+}
+.flag-Icela {
+    background-position: 75% 40%;
+}
+.flag-Repub {
+    background-position: 100% 40%;
+}
+.flag-ISR {
+    background-position: 0 50%;
+}
+.flag-Italy {
+    background-position: 25% 50%;
+}
+.flag-KAZ {
+    background-position: 50% 50%;
+}
+.flag-LAT, .flag-LVA {
+    background-position: 75% 50%;
+}
+.flag-LIE {
+    background-position: 100% 50%;
+}
+.flag-LIT, .flag-LTU {
+    background-position: 0 60%;
+}
+.flag-LUX {
+    background-position: 25% 60%;
+}
+.flag-MAL, .flag-MLT {
+    background-position: 50% 60%;
+}
+.flag-MKD {
+    background-position: 75% 60%;
+}
+.flag-MNE {
+    background-position: 100% 60%;
+}
+.flag-MDA, .flag-MOL {
+    background-position: 0 70%;
+}
+.flag-NED {
+    background-position: 25% 70%;
+}
+.flag-North {
+    background-position: 50% 70%;
+}
+.flag-Norwa {
+    background-position: 75% 70%;
+}
+.flag-Polan {
+    background-position: 100% 70%;
+}
+.flag-Portu {
+    background-position: 0 80%;
+}
+.flag-Roman {
+    background-position: 25% 80%;
+}
+.flag-Russi {
+    background-position: 50% 80%;
+}
+.flag-SER, .flag-SRB {
+    background-position: 75% 80%;
+}
+.flag-Slove {
+    background-position: 100% 80%;
+}
+.flag-SMR {
+    background-position: 0 90%;
+}
+.flag-Spain {
+    background-position: 25% 90%;
+}
+.flag-Switz {
+    background-position: 50% 90%;
+}
+.flag-Slova {
+    background-position: 75% 90%;
+}
+.flag-Swede {
+    background-position: 100% 90%;
+}
+.flag-Turke {
+    background-position: 0 100%;
+}
+.flag-Ukrai {
+    background-position: 25% 100%;
+}
+.flag-Wales {
+    background-position: 50% 100%;
+}
+.flag-SCO {
+    background-position: 75% 100%;
+}

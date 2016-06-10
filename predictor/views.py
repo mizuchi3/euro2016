@@ -1,23 +1,19 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models import Sum
-from django.core.mail import send_mail
-from django.core.urlresolvers import resolve
+from django.core.mail import EmailMessage
 from django.db import transaction
-from django.db.transaction import commit_on_success
-from predictor.models import *
+from predictor.models import Game, Prediction, UserInfo
 import string,random,datetime
 
-import time
 
 def register(request):
 	registered = False
 	if request.method == 'POST':
 		email = request.POST.get("email")
-                if len(email)<10:
-			return render(request, 'register.html', {'registered':registered})
+		if len(email)<10:
+		    return render(request, 'register.html', {'registered':registered})
 
 		newid = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(6))
 		u = User.objects.get_or_create(username=email)
@@ -25,27 +21,26 @@ def register(request):
 		userinfo.keyphrase = newid
 		userinfo.save()
 		registered = True
-		send_mail('bc2_geeks Euro 2016',
-		 """Thanks for registering for bc2_geeks Euro 2016 Predictions!
+		EmailMessage('bc2_geeks Euro 2016',  """Thanks for registering for bc2_geeks Euro 2016 Predictions!
 
 You will need to use the following link to make your predictions, if you feel
 you need to reset the link, just visit the registration page again.
 
-http://bc2-login14.bc2.unibas.ch:8016/games/%s
+https://scikid.pythonanywhere.com/games/%s
 
 """ % (newid),
-		  'bc2_geeks@unibas.ch',
-		  [email],
-		  fail_silently=False)
+		  'bc2geeks2016@gmail.com',
+		  to=[email]).send(fail_silently=False)
+
 
 	return render(request, 'register.html', {'registered':registered})
+
 
 
 #@commit_on_success
 def predict(request,userid=None):
 	user = None
 	userinfo = UserInfo.objects.filter(keyphrase=userid)
-	keyphrase = None
 	predictions=None
 	dtime = timezone.now() + datetime.timedelta(hours=2)
 	games = Game.objects.all().order_by('match_date')
@@ -82,7 +77,7 @@ def predict(request,userid=None):
 
 		for pp in ap:
 			pp.outcome = outcome(pp.predict_a,pp.predict_b,game.goals_a,game.goals_b)
-		game.open = user is not None and dtime < game.match_date and game.match_date.strftime('%Y-%m-%d') < endtime 
+		game.open = user is not None and dtime < game.match_date and game.match_date.strftime('%Y-%m-%d') < endtime
 	 	game.started = dtime > game.match_date
 		game.allpredictions = ap
 	return render(request, 'predictions.html', {'user':user,'games':games, 'updates_made':updates_made})
@@ -101,7 +96,7 @@ def scores(request):
 			s += 3
 		if outcome(p.predict_a,p.predict_b,p.game.goals_a,p.game.goals_b):
 			s += 3
-	
+
 		p.points_awarded = s
 		p.save()
 
@@ -188,7 +183,7 @@ def scores(request):
 
 	return render(request, 'scores.html', {'userid':userid,
 									'users':users,
-									'max_rank':max_rank, 
+									'max_rank':max_rank,
 									'games':games,
 									'user_rankings':user_rankings})
 

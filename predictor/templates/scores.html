@@ -25,7 +25,7 @@
 function toggle()
 {
 	var _redraw = chart.redraw;
-	chart.redraw = function(){};	
+	chart.redraw = function(){};
 	for(s in $('#container').highcharts().series)
 	{
     	if($('#container').highcharts().series[s].visible)
@@ -55,7 +55,7 @@ $(function () {
             },
             plotOptions: {
                 line: {
-                    tooltip: { valuePrefix: 'Rank: '},  
+                    tooltip: { valuePrefix: 'Rank: '},
                    // enableMouseTracking: true
                 }
             },
@@ -67,10 +67,10 @@ $(function () {
         },
             series: [{% for o in users %}{% for user,obj in user_rankings.items %}{% if o.first_name == obj.first_name %}
             {   name: '{{ obj.first_name }}',
-                data: [{% for d in obj.data %}{ name:'<b>{{ d.game.team_a }} v {{ d.game.team_b }} {{ d.game.goals_a }} - {{ d.game.goals_b}}</b>' 
+                data: [{% for d in obj.data %}{ name:'<b>{{ d.game.team_a }} v {{ d.game.team_b }} {{ d.game.goals_a }} - {{ d.game.goals_b}}</b>'
                             +'<br>Prediction: {{ d.prediction.predict_a }} - {{ d.prediction.predict_b }}'
                             +'<br>Match Points: {{ d.prediction.points_awarded|floatformat:"0" }}'
-                            +'<br>Total Score: {{ d.total }}', y: {{ d.rank|default:"null" }}, }{% if not forloop.last %},{% endif %}{% endfor %}]}{% endif %}{% endfor %}{% if not forloop.last %},{% endif %}
+                            +'<br>Total Score: {{ d.total }}', y: {{ d.rank|default:"null" }} }{% if not forloop.last %},{% endif %}{% endfor %}]}{% endif %}{% endfor %}{% if not forloop.last %},{% endif %}
         {% endfor %}]
         });
     });

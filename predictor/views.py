@@ -100,7 +100,7 @@ def scores(request):
 		p.points_awarded = s
 		p.save()
 
-	users = User.objects.annotate(points=Sum('prediction__points_awarded')).order_by('-points','first_name')
+	users = User.objects.annotate(points=Sum('prediction__points_awarded')).filter(points__isnull=False).order_by('-points','first_name')
 	for u in users:
 		userinfo = UserInfo.objects.get(user=u)
 		u.paid = userinfo.paid

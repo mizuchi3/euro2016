@@ -76,8 +76,14 @@ setTimeout(function(){$('#message').fadeOut('slow');},3000);
 
 {% endif %}
 
-<td > <label for="game{{ game.id }}_b"><span class="team-flag flag-{{ game.team_b|slice:":5" }}"></span> {{ game.team_b }}</label></td>
-<td title="points awarded">{% if game.prediction.points_awarded|yesno:"2,1," %}<strong>{{ game.prediction.points_awarded|floatformat:"0" }}</strong>{% endif %}</td>
+<td><label for="game{{ game.id }}_b"><span class="team-flag flag-{{ game.team_b|slice:":5" }}"></span> {{ game.team_b }}</label></td>
+<td title="points awarded"><div class="pull-right">{% if game.prediction.points_awarded|yesno:"2,1," %}<strong>{{ game.prediction.points_awarded|floatformat:"0" }}</strong>{% endif %}
+{% if game.started %}
+<i class="glyphicon glyphicon-eye-close ptoggle" style="margin-left:12px;"></i>
+<i class="glyphicon glyphicon-eye-open ptoggle" style="margin-left:12px;display:none;"></i></div>
+{% endif %}
+
+</td>
 </tr>
 
 {% if game.started %}
@@ -103,7 +109,12 @@ $(document).ready(
 	{
 		$('.ptoggle').on('click',function(evt)
 				{
-					$('.allpredictions'+$( this ).closest('tr').attr('id')).toggle();
+					$('.allpredictions'+$( this ).closest('tr').attr('id'))
+					    .toggle();
+					$( this )
+					    .closest('tr')
+					    .find('.glyphicon')
+					    .toggle();
 				})
 			.css('cursor','pointer');
                if($('select').length>0)

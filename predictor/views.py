@@ -67,7 +67,7 @@ def predict(request,userid=None):
 
 	predictions = Prediction.objects.filter(user=user)
 	allpredictions = Prediction.objects.all()
-	endtime =  "2016-07-05"
+	endtime =  "2016-07-11"
 	for game in games:
 		p = predictions.filter(game=game)
 		ap = allpredictions.filter(game=game).exclude(user=user).order_by('user__first_name')
